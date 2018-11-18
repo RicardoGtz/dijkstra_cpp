@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include <cfloat>
 #include<stdlib.h>
+#include <time.h>
 using namespace std;
 
 bool allVisited();
@@ -60,6 +61,8 @@ int main(int argc, char const *argv[]) {
     }
     printf("\n");
  	}
+  clock_t ti, tf;
+  ti = clock();//Comienza a medir el tiempo
   //Algoritmo Dijkstra
     //1.Selecciona el nodo Inicial como nodo actual
   int act=iniNode;
@@ -90,7 +93,7 @@ int main(int argc, char const *argv[]) {
     }
     act=index;
   }
-
+  tf = clock();//Termina de medir el tiempo
   for(int i=0;i<num;i++){
     printf("%.2f ",minDist[i]);
   }
@@ -98,7 +101,8 @@ int main(int argc, char const *argv[]) {
   for(int i=0;i<num;i++){
     printf("%d ",parents[i]);
   }
-
+  double segundos = (double)(tf - ti) / CLOCKS_PER_SEC;
+	printf("\nTiempo de ejecucion: %lf Segundos\n",segundos);
   free(fp);
   free(graph);
   free(minDist);
