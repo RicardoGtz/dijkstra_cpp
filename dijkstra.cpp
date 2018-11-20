@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
   //Creamos un puntero de tipo FILE
 	FILE *fp;
 	//Abrimos el archivo a leer
- 	if((fp = fopen ("graphs\\bcs.txt", "r" ))==NULL){
+ 	if((fp = fopen ("graphs/bcs.txt", "r" ))==NULL){
  		printf("No se pudo leer el archivo\n");
  		return 0;
  	}
@@ -51,6 +51,7 @@ int main(int argc, char const *argv[]) {
  		graph[a-1][b-1]=d;
     graph[b-1][a-1]=d;
  	}
+	/*
  	//Imprimimos el grafo
  	for(int i = 0; i < num; i++){
  		for (int j = 0; j < num; ++j){
@@ -60,7 +61,7 @@ int main(int argc, char const *argv[]) {
         printf("INF\t");
     }
     printf("\n");
- 	}
+ 	}*/
   clock_t ti, tf;
   ti = clock();//Comienza a medir el tiempo
   //Algoritmo Dijkstra
@@ -73,7 +74,7 @@ int main(int argc, char const *argv[]) {
   minDist[act]=0;
     //4.Mientras aun hay nodos por visitar, hacer
   while(!allVisited()){
-    printf("Actual %d\n",act);
+    //printf("Actual %d\n",act);
     for(int i=0;i<num;i++){
       if(graph[act][i]<DBL_MAX){
         if((graph[act][i]+minDist[act])<minDist[i]){
@@ -91,16 +92,44 @@ int main(int argc, char const *argv[]) {
         index=i;
       }
     }
+		/*
+		//Imprecion de iteracion
+		printf("[");
+		for(int i=0;i<num-1;i++)
+			if(minDist[i]==DBL_MAX)
+				printf("INF, ");
+			else
+				printf("%.2f, ",minDist[i]);
+		if(minDist[num-1]==DBL_MAX)
+		printf("INF] Distancia minima\n");
+		else
+		printf("%.2f] Distancia minima\n",minDist[num-1]);
+
+		printf("[");
+		for(int i=0;i<num-1;i++)
+			printf("%d, ",parents[i]);
+		printf("%d] Padres\n",parents[num-1]);
+
+		printf("[");
+		for(int i=0;i<num-1;i++)
+			printf("%d, ",visited[i]);
+		printf("%d] Padres\n",visited[num-1]);
+		*/
     act=index;
   }
   tf = clock();//Termina de medir el tiempo
-  for(int i=0;i<num;i++){
-    printf("%.2f ",minDist[i]);
-  }
-  printf("\n");
-  for(int i=0;i<num;i++){
-    printf("%d ",parents[i]);
-  }
+	//Imprime el arreglo de distan minimas
+	printf("Distancias minimas [");
+	for(int i=0;i<num-1;i++)
+		printf("%.2f, ",minDist[i]==DBL_MAX ? -1:minDist[i]);
+	printf("%.2f]\n",minDist[num-1]==DBL_MAX ? -1:minDist[num-1]);
+
+	//Imprime el arreglo de padres
+	printf("Padres [");
+	for(int i=0;i<num-1;i++)
+		printf("%d, ",parents[i]);
+	printf("%d]\n",parents[num-1]);
+
   double segundos = (double)(tf - ti) / CLOCKS_PER_SEC;
 	printf("\nTiempo de ejecucion: %lf Segundos\n",segundos);
   free(fp);
